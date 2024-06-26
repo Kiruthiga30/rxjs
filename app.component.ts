@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, filter, catchError } from 'rxjs/operators';
+import { map, filter, catchError, finalize } from 'rxjs/operators';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -24,7 +24,7 @@ export class AppComponent {
         observer.complete();
       }
     }, 1000);
-  }).pipe(filter((x: number) => x % 2 === 0), map((x: number) => x * 10), catchError((err: any) => { throw "Error occurred:" + err }));
+  }).pipe(filter((x: number) => x % 2 === 0), map((x: number) => x * 10), catchError((err: any) => { throw "Error occurred:" + err }),finalize(()=>console.log("Observable completed successdully...")));
 
   subscription = this.observable.subscribe(data => console.log(data));//use of multiple log in subscribe is depreciated in latest version
 }
